@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11761" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11761"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="NSApplication"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customObject id="YjU-mF-Rpw" customClass="AppDelegate" customModule="DockerStatsMenu" customModuleProvider="target"/>
+        <customObject id="WO9-Ul-ux3" customClass="ContainersMenuController" customModule="DockerStatsMenu" customModuleProvider="target">
+            <connections>
+                <outlet property="containersSeparatorMenuItem" destination="2ql-CL-oDJ" id="zIm-Yk-Ev7"/>
+                <outlet property="containersTitleMenuItem" destination="UgR-55-2ff" id="lLd-Te-X8q"/>
+                <outlet property="reconnectMenuItem" destination="OHQ-En-6Dn" id="GZt-LF-hv0"/>
+                <outlet property="showAllMenuItem" destination="ggu-7D-ZW5" id="gmB-6y-xSm"/>
+                <outlet property="statusMenu" destination="9qv-LB-AoP" id="ZSp-C4-Hcd"/>
+            </connections>
+        </customObject>
+        <menu id="9qv-LB-AoP">
+            <items>
+                <menuItem title="Containers" id="UgR-55-2ff">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+                <menuItem title="Show All" id="ggu-7D-ZW5">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="userDidClickShowAll:" target="WO9-Ul-ux3" id="ST7-Xu-PZ3"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Retry..." keyEquivalent="r" id="OHQ-En-6Dn">
+                    <connections>
+                        <action selector="userDidClickReconnect:" target="WO9-Ul-ux3" id="yi5-hg-reo"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="2ql-CL-oDJ"/>
+                <menuItem title="Quit" keyEquivalent="q" id="7ey-Qs-F6L">
+                    <connections>
+                        <action selector="userDidClickQuit:" target="WO9-Ul-ux3" id="wj6-il-K9K"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <connections>
+                <outlet property="delegate" destination="WO9-Ul-ux3" id="npm-9n-NVg"/>
+            </connections>
+        </menu>
+    </objects>
+</document>

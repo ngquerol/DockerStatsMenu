@@ -9,15 +9,25 @@
 /* Begin PBXBuildFile section */
 		8D2387621DD9566500BF10E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2387611DD9566500BF10E1 /* AppDelegate.swift */; };
 		8D2387641DD9566500BF10E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D2387631DD9566500BF10E1 /* Assets.xcassets */; };
-		8D2387671DD9566500BF10E1 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D2387651DD9566500BF10E1 /* MainMenu.xib */; };
+		8D2387711DD956FE00BF10E1 /* DockerAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D23876E1DD956FE00BF10E1 /* DockerAPIClient.swift */; };
+		8D2387731DD956FE00BF10E1 /* UnixClientSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2387701DD956FE00BF10E1 /* UnixClientSocket.swift */; };
+		8D49332D1DF47AA700A74A5A /* ContainersMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49332B1DF47AA700A74A5A /* ContainersMenuController.swift */; };
+		8D4933301DF4824000A74A5A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D49332F1DF4824000A74A5A /* MainMenu.xib */; };
+		8D79841C1DE881AF0041B6E6 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D79841B1DE881AF0041B6E6 /* Container.swift */; };
+		8DEE2A911DE5F5EA000E4B9D /* HTTPMessageWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEE2A901DE5F5EA000E4B9D /* HTTPMessageWrapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		8D23875E1DD9566500BF10E1 /* DockerStatsMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DockerStatsMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D2387611DD9566500BF10E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D2387631DD9566500BF10E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		8D2387661DD9566500BF10E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		8D2387681DD9566500BF10E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8D23876E1DD956FE00BF10E1 /* DockerAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DockerAPIClient.swift; sourceTree = "<group>"; };
+		8D2387701DD956FE00BF10E1 /* UnixClientSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnixClientSocket.swift; sourceTree = "<group>"; };
+		8D49332B1DF47AA700A74A5A /* ContainersMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainersMenuController.swift; sourceTree = "<group>"; };
+		8D49332F1DF4824000A74A5A /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		8D79841B1DE881AF0041B6E6 /* Container.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Container.swift; sourceTree = "<group>"; };
+		8DEE2A901DE5F5EA000E4B9D /* HTTPMessageWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPMessageWrapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,12 +60,41 @@
 		8D2387601DD9566500BF10E1 /* DockerStatsMenu */ = {
 			isa = PBXGroup;
 			children = (
+				8DF52DD51DDA3F13008875C5 /* Resources */,
+				8D66EDCF1DEB1D6C00EB94F2 /* Model */,
+				8DF52DD41DDA3F05008875C5 /* API */,
 				8D2387611DD9566500BF10E1 /* AppDelegate.swift */,
-				8D2387631DD9566500BF10E1 /* Assets.xcassets */,
-				8D2387651DD9566500BF10E1 /* MainMenu.xib */,
-				8D2387681DD9566500BF10E1 /* Info.plist */,
+				8D49332B1DF47AA700A74A5A /* ContainersMenuController.swift */,
 			);
 			path = DockerStatsMenu;
+			sourceTree = "<group>";
+		};
+		8D66EDCF1DEB1D6C00EB94F2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8D79841B1DE881AF0041B6E6 /* Container.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		8DF52DD41DDA3F05008875C5 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				8D23876E1DD956FE00BF10E1 /* DockerAPIClient.swift */,
+				8DEE2A901DE5F5EA000E4B9D /* HTTPMessageWrapper.swift */,
+				8D2387701DD956FE00BF10E1 /* UnixClientSocket.swift */,
+			);
+			name = API;
+			sourceTree = "<group>";
+		};
+		8DF52DD51DDA3F13008875C5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8D2387631DD9566500BF10E1 /* Assets.xcassets */,
+				8D2387681DD9566500BF10E1 /* Info.plist */,
+				8D49332F1DF4824000A74A5A /* MainMenu.xib */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -85,7 +124,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0810;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Nicolas Gaulard-Querol";
 				TargetAttributes = {
 					8D23875D1DD9566500BF10E1 = {
@@ -119,7 +158,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D2387641DD9566500BF10E1 /* Assets.xcassets in Resources */,
-				8D2387671DD9566500BF10E1 /* MainMenu.xib in Resources */,
+				8D4933301DF4824000A74A5A /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,22 +169,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8DEE2A911DE5F5EA000E4B9D /* HTTPMessageWrapper.swift in Sources */,
+				8D79841C1DE881AF0041B6E6 /* Container.swift in Sources */,
+				8D2387731DD956FE00BF10E1 /* UnixClientSocket.swift in Sources */,
+				8D49332D1DF47AA700A74A5A /* ContainersMenuController.swift in Sources */,
+				8D2387711DD956FE00BF10E1 /* DockerAPIClient.swift in Sources */,
 				8D2387621DD9566500BF10E1 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		8D2387651DD9566500BF10E1 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8D2387661DD9566500BF10E1 /* Base */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		8D2387691DD9566500BF10E1 /* Debug */ = {
@@ -166,6 +199,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -215,6 +249,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -242,10 +277,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_OPTIMIZATION = "";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = L8JTCTCWN2;
 				INFOPLIST_FILE = DockerStatsMenu/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = fr.ngquerol.DockerStatsMenu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
@@ -256,10 +294,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_OPTIMIZATION = "";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = L8JTCTCWN2;
 				INFOPLIST_FILE = DockerStatsMenu/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = fr.ngquerol.DockerStatsMenu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
@@ -285,6 +326,7 @@
 				8D23876D1DD9566500BF10E1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
