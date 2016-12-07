@@ -81,7 +81,9 @@ class ContainersPopoverViewController: NSViewController {
                 }
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    self.containersTableView.reloadData()
+                    let visibleRowsRange = self.containersTableView.rows(in: self.containersTableView.visibleRect).toRange()!
+                    let visibleColumnsRange = self.containersTableView.columnIndexes(in: self.containersTableView.visibleRect)
+                    self.containersTableView.reloadData(forRowIndexes: IndexSet(integersIn: visibleRowsRange), columnIndexes: visibleColumnsRange)
                 }
             }
         }
