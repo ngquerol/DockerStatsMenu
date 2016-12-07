@@ -65,3 +65,17 @@ struct Container {
         self.state = ContainerState(rawValue: state)
     }
 }
+
+extension Container: Equatable {
+    static func == (lhs: Container, rhs: Container) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
+
+extension Container: Comparable {
+    static func < (lhs: Container, rhs: Container) -> Bool {
+        return lhs.created < rhs.created
+    }
+}
+
+

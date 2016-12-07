@@ -11,9 +11,10 @@
 		8D2387641DD9566500BF10E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D2387631DD9566500BF10E1 /* Assets.xcassets */; };
 		8D2387711DD956FE00BF10E1 /* DockerAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D23876E1DD956FE00BF10E1 /* DockerAPIClient.swift */; };
 		8D2387731DD956FE00BF10E1 /* UnixClientSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2387701DD956FE00BF10E1 /* UnixClientSocket.swift */; };
-		8D49332D1DF47AA700A74A5A /* ContainersMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49332B1DF47AA700A74A5A /* ContainersMenuController.swift */; };
-		8D4933301DF4824000A74A5A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D49332F1DF4824000A74A5A /* MainMenu.xib */; };
 		8D79841C1DE881AF0041B6E6 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D79841B1DE881AF0041B6E6 /* Container.swift */; };
+		8DC632F21DF4EF9900449A5C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DC632F11DF4EF9900449A5C /* Main.storyboard */; };
+		8DC632F41DF4F23A00449A5C /* ContainersPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC632F31DF4F23A00449A5C /* ContainersPopoverViewController.swift */; };
+		8DC632F61DF5EF7700449A5C /* ContainerTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC632F51DF5EF7700449A5C /* ContainerTableCellView.swift */; };
 		8DEE2A911DE5F5EA000E4B9D /* HTTPMessageWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEE2A901DE5F5EA000E4B9D /* HTTPMessageWrapper.swift */; };
 /* End PBXBuildFile section */
 
@@ -24,9 +25,10 @@
 		8D2387681DD9566500BF10E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D23876E1DD956FE00BF10E1 /* DockerAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DockerAPIClient.swift; sourceTree = "<group>"; };
 		8D2387701DD956FE00BF10E1 /* UnixClientSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnixClientSocket.swift; sourceTree = "<group>"; };
-		8D49332B1DF47AA700A74A5A /* ContainersMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainersMenuController.swift; sourceTree = "<group>"; };
-		8D49332F1DF4824000A74A5A /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		8D79841B1DE881AF0041B6E6 /* Container.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Container.swift; sourceTree = "<group>"; };
+		8DC632F11DF4EF9900449A5C /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		8DC632F31DF4F23A00449A5C /* ContainersPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainersPopoverViewController.swift; sourceTree = "<group>"; };
+		8DC632F51DF5EF7700449A5C /* ContainerTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerTableCellView.swift; sourceTree = "<group>"; };
 		8DEE2A901DE5F5EA000E4B9D /* HTTPMessageWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPMessageWrapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -64,7 +66,8 @@
 				8D66EDCF1DEB1D6C00EB94F2 /* Model */,
 				8DF52DD41DDA3F05008875C5 /* API */,
 				8D2387611DD9566500BF10E1 /* AppDelegate.swift */,
-				8D49332B1DF47AA700A74A5A /* ContainersMenuController.swift */,
+				8DC632F31DF4F23A00449A5C /* ContainersPopoverViewController.swift */,
+				8DC632F51DF5EF7700449A5C /* ContainerTableCellView.swift */,
 			);
 			path = DockerStatsMenu;
 			sourceTree = "<group>";
@@ -92,7 +95,7 @@
 			children = (
 				8D2387631DD9566500BF10E1 /* Assets.xcassets */,
 				8D2387681DD9566500BF10E1 /* Info.plist */,
-				8D49332F1DF4824000A74A5A /* MainMenu.xib */,
+				8DC632F11DF4EF9900449A5C /* Main.storyboard */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -158,7 +161,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D2387641DD9566500BF10E1 /* Assets.xcassets in Resources */,
-				8D4933301DF4824000A74A5A /* MainMenu.xib in Resources */,
+				8DC632F21DF4EF9900449A5C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,9 +174,10 @@
 			files = (
 				8DEE2A911DE5F5EA000E4B9D /* HTTPMessageWrapper.swift in Sources */,
 				8D79841C1DE881AF0041B6E6 /* Container.swift in Sources */,
+				8DC632F41DF4F23A00449A5C /* ContainersPopoverViewController.swift in Sources */,
 				8D2387731DD956FE00BF10E1 /* UnixClientSocket.swift in Sources */,
-				8D49332D1DF47AA700A74A5A /* ContainersMenuController.swift in Sources */,
 				8D2387711DD956FE00BF10E1 /* DockerAPIClient.swift in Sources */,
+				8DC632F61DF5EF7700449A5C /* ContainerTableCellView.swift in Sources */,
 				8D2387621DD9566500BF10E1 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

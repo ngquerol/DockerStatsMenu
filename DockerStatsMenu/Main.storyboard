@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11761" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11761"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <capability name="system font weights other than Regular or Bold" minToolsVersion="7.0"/>
+    </dependencies>
+    <scenes>
+        <!--Containers Popover View Controller-->
+        <scene sceneID="cb6-gD-RwS">
+            <objects>
+                <viewController storyboardIdentifier="ContainersPopoverViewController" showSeguePresentationStyle="single" id="Xf8-3y-0he" customClass="ContainersPopoverViewController" customModule="DockerStatsMenu" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="MgT-qJ-q32">
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gXz-LN-1aM">
+                                <rect key="frame" x="3" y="178" width="194" height="17"/>
+                                <textFieldCell key="cell" lineBreakMode="truncatingTail" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="center" title="Containers" usesSingleLineMode="YES" id="4gg-Dd-cMI">
+                                    <font key="font" metaFont="systemMedium" size="13"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
+                                </textFieldCell>
+                            </textField>
+                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="30" horizontalPageScroll="10" verticalLineScroll="30" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gfb-Xb-gF8">
+                                <rect key="frame" x="0.0" y="0.0" width="200" height="173"/>
+                                <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="PB8-mP-VrC">
+                                    <rect key="frame" x="0.0" y="0.0" width="200" height="173"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" selectionHighlightStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="25" rowSizeStyle="automatic" viewBased="YES" id="P5A-3T-KdM">
+                                            <rect key="frame" x="0.0" y="0.0" width="200" height="173"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <size key="intercellSpacing" width="0.0" height="5"/>
+                                            <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
+                                            <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                            <tableColumns>
+                                                <tableColumn editable="NO" width="200" minWidth="40" maxWidth="1000" id="YOk-e0-Yvz">
+                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
+                                                        <font key="font" metaFont="smallSystem"/>
+                                                        <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                                    </tableHeaderCell>
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="geH-zH-bwY">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                    <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                    <prototypeCellViews>
+                                                        <tableCellView identifier="ContainerCell" id="E8n-6o-wAs" customClass="ContainerTableCellView" customModule="DockerStatsMenu" customModuleProvider="target">
+                                                            <rect key="frame" x="0.0" y="2" width="200" height="25"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Q1C-7Z-aMx">
+                                                                    <rect key="frame" x="5" y="5" width="14" height="14"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" secondItem="Q1C-7Z-aMx" secondAttribute="height" multiplier="1:1" id="n37-LW-vnb"/>
+                                                                        <constraint firstAttribute="width" constant="14" id="pH6-HN-aFd"/>
+                                                                    </constraints>
+                                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSStatusNone" id="j7M-AT-M7l"/>
+                                                                </imageView>
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="sTM-ja-ce4">
+                                                                    <rect key="frame" x="27" y="4" width="104" height="17"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Name" usesSingleLineMode="YES" id="XcR-Ff-6SB">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dcP-BH-Rdg">
+                                                                    <rect key="frame" x="137" y="4" width="60" height="17"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Image" usesSingleLineMode="YES" id="WyU-5E-Uh5">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="Q1C-7Z-aMx" firstAttribute="leading" secondItem="E8n-6o-wAs" secondAttribute="leading" constant="5" id="14Z-OA-kdJ"/>
+                                                                <constraint firstItem="sTM-ja-ce4" firstAttribute="width" relation="lessThanOrEqual" secondItem="E8n-6o-wAs" secondAttribute="width" multiplier="0.5" id="4O5-yU-BjE"/>
+                                                                <constraint firstItem="sTM-ja-ce4" firstAttribute="leading" secondItem="Q1C-7Z-aMx" secondAttribute="trailing" constant="10" id="5Gp-2O-Uf6"/>
+                                                                <constraint firstItem="dcP-BH-Rdg" firstAttribute="width" relation="lessThanOrEqual" secondItem="E8n-6o-wAs" secondAttribute="width" multiplier="0.5" id="IqN-gX-Bc6"/>
+                                                                <constraint firstItem="Q1C-7Z-aMx" firstAttribute="centerY" secondItem="E8n-6o-wAs" secondAttribute="centerY" id="SwY-eb-KoS"/>
+                                                                <constraint firstAttribute="trailing" secondItem="dcP-BH-Rdg" secondAttribute="trailing" constant="5" id="Vf5-wS-MZV"/>
+                                                                <constraint firstItem="dcP-BH-Rdg" firstAttribute="leading" secondItem="sTM-ja-ce4" secondAttribute="trailing" constant="10" id="aua-kE-3We"/>
+                                                                <constraint firstItem="dcP-BH-Rdg" firstAttribute="baseline" secondItem="sTM-ja-ce4" secondAttribute="baseline" id="jID-gQ-Hj0"/>
+                                                                <constraint firstItem="sTM-ja-ce4" firstAttribute="centerY" secondItem="E8n-6o-wAs" secondAttribute="centerY" id="k5p-wH-Cbl"/>
+                                                            </constraints>
+                                                            <connections>
+                                                                <outlet property="imageTextField" destination="dcP-BH-Rdg" id="3i0-Kf-AX5"/>
+                                                                <outlet property="nameTextField" destination="sTM-ja-ce4" id="mF8-aj-OdK"/>
+                                                                <outlet property="statusImageView" destination="Q1C-7Z-aMx" id="MUe-BI-53C"/>
+                                                            </connections>
+                                                        </tableCellView>
+                                                    </prototypeCellViews>
+                                                </tableColumn>
+                                            </tableColumns>
+                                            <connections>
+                                                <outlet property="dataSource" destination="Xf8-3y-0he" id="jU5-oQ-TW7"/>
+                                                <outlet property="delegate" destination="Xf8-3y-0he" id="3ex-hi-Ot9"/>
+                                            </connections>
+                                        </tableView>
+                                    </subviews>
+                                    <nil key="backgroundColor"/>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="9Nx-wP-avb">
+                                    <rect key="frame" x="1" y="283" width="198" height="16"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="haW-Kk-H4t">
+                                    <rect key="frame" x="224" y="17" width="15" height="102"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="gfb-Xb-gF8" secondAttribute="trailing" id="3zp-4c-Kr8"/>
+                            <constraint firstAttribute="bottom" secondItem="gfb-Xb-gF8" secondAttribute="bottom" id="WDo-cn-aEB"/>
+                            <constraint firstItem="gfb-Xb-gF8" firstAttribute="top" secondItem="gXz-LN-1aM" secondAttribute="bottom" constant="5" id="jzl-J9-OcW"/>
+                            <constraint firstItem="gXz-LN-1aM" firstAttribute="leading" secondItem="MgT-qJ-q32" secondAttribute="leading" constant="5" id="kFw-Vr-Sh2"/>
+                            <constraint firstAttribute="trailing" secondItem="gXz-LN-1aM" secondAttribute="trailing" constant="5" id="lzW-oI-h6P"/>
+                            <constraint firstItem="gXz-LN-1aM" firstAttribute="top" secondItem="MgT-qJ-q32" secondAttribute="top" constant="5" id="sNR-dj-Ln5"/>
+                            <constraint firstItem="gfb-Xb-gF8" firstAttribute="leading" secondItem="MgT-qJ-q32" secondAttribute="leading" id="yE9-6y-c23"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="containersTableView" destination="P5A-3T-KdM" id="1HR-yz-lG7"/>
+                    </connections>
+                </viewController>
+                <customObject id="p98-W3-TLF" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="111" y="118"/>
+        </scene>
+        <!--Application-->
+        <scene sceneID="hep-o7-bPr">
+            <objects>
+                <application id="1x7-ET-2kb" sceneMemberID="viewController">
+                    <menu key="mainMenu" title="Main Menu" systemMenu="main" id="h0L-3D-zHG">
+                        <items>
+                            <menuItem title="DockerStatsMenu" id="y2t-L4-Xqw">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="DockerStatsMenu" systemMenu="apple" id="5gS-UG-mga">
+                                    <items>
+                                        <menuItem title="About DockerStatsMenu" id="6pZ-8V-esy">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="DBq-pP-kVf"/>
+                                        <menuItem title="Preferences…" keyEquivalent="," id="b7E-dD-mVF"/>
+                                        <menuItem isSeparatorItem="YES" id="Clx-tP-jFe"/>
+                                        <menuItem title="Services" id="Y6J-NC-hS1">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Services" systemMenu="services" id="EY6-91-0jj"/>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="1L7-U2-pP0"/>
+                                        <menuItem title="Hide DockerStatsMenu" keyEquivalent="h" id="BSH-3C-gZQ"/>
+                                        <menuItem title="Hide Others" keyEquivalent="h" id="VCn-jj-O3C">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                        </menuItem>
+                                        <menuItem title="Show All" id="c7N-Cs-R4f">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="ESq-5C-bDz"/>
+                                        <menuItem title="Quit DockerStatsMenu" keyEquivalent="q" id="uPA-lE-rWL"/>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Help" id="T83-Nc-LY7">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Help" systemMenu="help" id="UFt-q4-IF4">
+                                    <items>
+                                        <menuItem title="DockerStatsMenu Help" keyEquivalent="?" id="Uhm-Wi-FDl"/>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                        </items>
+                    </menu>
+                    <connections>
+                        <outlet property="delegate" destination="leR-XL-DAz" id="Fnk-15-L3c"/>
+                    </connections>
+                </application>
+                <customObject id="leR-XL-DAz" customClass="AppDelegate" customModule="DockerStatsMenu" customModuleProvider="target"/>
+                <customObject id="c9g-BC-KG3" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="95" y="-239"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="NSStatusNone" width="16" height="16"/>
+    </resources>
+</document>
