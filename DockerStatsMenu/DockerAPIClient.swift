@@ -120,7 +120,7 @@ class SocketDockerAPI {
     fileprivate func doRequest(to route: DockerAPIRoute, via method: String, with data: Data = Data(), completion: @escaping (Response?, Error?) -> Void) {
         var responseData = Data()
 
-        clientSocket.readHandler = { data, error in
+        clientSocket.readEventHandler = { data, error in
             guard let data = data, error == nil else {
                 return completion(nil, error)
             }
@@ -131,19 +131,18 @@ class SocketDockerAPI {
                 let response = try self.readResponse(from: responseData)
                 completion(response, nil)
                 responseData.removeAll()
-                self.clientSocket.readHandler = nil
+                self.clientSocket.readEventHandler = nil
             } catch HTTPMessageWrapperError.incompleteMessage {
                 return // wait for additional data
             } catch (let error) {
                 completion(nil, error)
                 responseData.removeAll()
-                self.clientSocket.readHandler = nil
+                self.clientSocket.readEventHandler = nil
             }
         }
 
         sendRequest(to: route, via: method, with: data) { error in
             guard error == nil else {
-                self.clientSocket.readHandler = nil
                 return completion(nil, error)
             }
         }

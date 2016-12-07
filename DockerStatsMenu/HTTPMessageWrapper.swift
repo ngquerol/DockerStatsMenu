@@ -11,15 +11,15 @@ import Foundation
 // MARK: - HTTP request/response CoreFoundation wrappers
 
 enum HTTPMessageWrapperError: Error, CustomStringConvertible {
-    case invalidMessage(reason: String)
     case incompleteMessage(reason: String)
     case encodingError(reason: String)
+    case decodingError(reason: String)
 
     var description: String {
         switch self {
-        case .invalidMessage(let reason): return "invalid HTTP message: " + reason
         case .incompleteMessage(let reason): return "incomplete HTTP message: " + reason
         case .encodingError(let reason): return "could not encode HTTP message: " + reason
+        case .decodingError(let reason): return "could not decode HTTP message: " + reason
         }
     }
 
@@ -53,7 +53,7 @@ extension HTTPMessageWrapper {
         self.headers = headerDictionary
 
         guard var messageBody = CFHTTPMessageCopyBody(message)?.takeRetainedValue() as? Data else {
-            throw HTTPMessageWrapperError.invalidMessage(reason: "Missing message body")
+            throw HTTPMessageWrapperError.decodingError(reason: "Missing message body")
         }
 
         if let contentLength = headers["Content-Length"] {
@@ -75,7 +75,7 @@ extension HTTPMessageWrapper {
         }
 
         guard copySucceeded else {
-            throw HTTPMessageWrapperError.invalidMessage(reason: "Could not deserialize message data")
+            throw HTTPMessageWrapperError.decodingError(reason: "Could not deserialize message data")
         }
 
         return message
@@ -95,7 +95,7 @@ extension HTTPRequestWrapper {
 
         guard let url = CFHTTPMessageCopyRequestURL(request)?.takeRetainedValue() as? URL,
             let method = CFHTTPMessageCopyRequestMethod(request)?.takeRetainedValue() as? String else {
-            throw HTTPMessageWrapperError.invalidMessage(reason: "Missing/malformed request URL or HTTP method")
+            throw HTTPMessageWrapperError.decodingError(reason: "Missing/malformed request URL or HTTP method")
         }
 
         self.url = url
@@ -119,7 +119,7 @@ extension HTTPResponseWrapper {
         try self.init(rawMessage: response)
 
         guard let statusLine = CFHTTPMessageCopyResponseStatusLine(response)?.takeRetainedValue() as? String else {
-            throw HTTPMessageWrapperError.invalidMessage(reason: "Missing response status line")
+            throw HTTPMessageWrapperError.decodingError(reason: "Missing response status line")
         }
 
         self.statusCode = CFHTTPMessageGetResponseStatusCode(response) as Int
@@ -133,7 +133,7 @@ extension HTTPResponseWrapper {
     private func decodeChunkLength(data: Data) throws -> Int {
         guard let chunkLengthString = String(data: data, encoding: .ascii),
             let chunkLength = Int(chunkLengthString, radix: 16) else {
-            throw HTTPMessageWrapperError.invalidMessage(reason: "Could not decode chunk length")
+            throw HTTPMessageWrapperError.decodingError(reason: "Could not decode chunk length")
         }
 
         return chunkLength
@@ -154,13 +154,12 @@ extension HTTPResponseWrapper {
         // At this point we have a sequence containing the following repeated subsequences:
         // - the chunk's length in hexadecimal notation
         // - the chunk's content
-        // As per RFC 2145, the last chunk's length should be equal to zero.
-        // Because of the split's predicate, this chunk is discarded altogether;
+        // As per RFC 2145, the last chunk's length should be equal to zero, with no chunk data
+        // that follows it.
+        // Because of the split's delimiter, this chunk is discarded altogether;
         // Hence, if the message is complete we should get an odd number of subsequences
         // from our message body.
-        let lastChunkLength = try decodeChunkLength(data: Data(parts.last!))
-
-        if parts.count % 2 == 0 || lastChunkLength != 0 {
+        if parts.count % 2 == 0 {
             throw HTTPMessageWrapperError.incompleteMessage(reason: "Last chunk was not empty")
         }
 
@@ -171,7 +170,7 @@ extension HTTPResponseWrapper {
 
             guard let chunkLength = try? decodeChunkLength(data: Data(parts[i])),
                 chunkData.count == chunkLength - 1 else {
-                throw HTTPMessageWrapperError.invalidMessage(reason: "Invalid chunk length")
+                throw HTTPMessageWrapperError.decodingError(reason: "Invalid chunk length")
             }
 
             // If all is well, append the chunk's content to our result variable.

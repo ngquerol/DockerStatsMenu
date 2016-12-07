@@ -46,9 +46,9 @@ enum ClientSocketError: Error, CustomStringConvertible {
 class UnixClientSocket {
     private static let socketQueue = DispatchQueue(label: "fr.ngquerol.dockerstatsmenu.socketqueue")
 
-    var readHandler: ((Data?, Error?) -> Void)? {
+    var readEventHandler: ((Data?, Error?) -> Void)? {
         didSet {
-            guard let readHandler = self.readHandler else { return }
+            guard let readHandler = self.readEventHandler else { return }
 
             readEventSource.setEventHandler(qos: .utility, flags: []) {
                 self.read(completion: readHandler)
