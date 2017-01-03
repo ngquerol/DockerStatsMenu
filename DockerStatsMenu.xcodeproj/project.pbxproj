@@ -7,28 +7,62 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D0075B11E169BBA00BAA961 /* FilePathCompletionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0075B01E169BBA00BAA961 /* FilePathCompletionDelegate.swift */; };
+		8D054A811E058F43004DBCA7 /* ContainerDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D054A801E058F43004DBCA7 /* ContainerDetails.swift */; };
+		8D054A8B1E05FEAA004DBCA7 /* ContainersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D054A8A1E05FEAA004DBCA7 /* ContainersViewController.swift */; };
+		8D054A8E1E061C71004DBCA7 /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D054A8D1E061C71004DBCA7 /* PreferencesViewController.swift */; };
+		8D054A901E061E79004DBCA7 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D054A8F1E061E79004DBCA7 /* Preferences.swift */; };
+		8D07786B1E1C21560082FE36 /* StatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D07786A1E1C21560082FE36 /* StatusBarView.swift */; };
 		8D2387621DD9566500BF10E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2387611DD9566500BF10E1 /* AppDelegate.swift */; };
 		8D2387641DD9566500BF10E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D2387631DD9566500BF10E1 /* Assets.xcassets */; };
 		8D2387711DD956FE00BF10E1 /* DockerAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D23876E1DD956FE00BF10E1 /* DockerAPIClient.swift */; };
 		8D2387731DD956FE00BF10E1 /* UnixClientSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2387701DD956FE00BF10E1 /* UnixClientSocket.swift */; };
+		8D2F4C8B1DFDB99200E4206A /* PopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2F4C8A1DFDB99200E4206A /* PopoverViewController.swift */; };
+		8D43B5DB1E17EE5700954708 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D43B5DA1E17EE5700954708 /* AboutViewController.swift */; };
 		8D79841C1DE881AF0041B6E6 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D79841B1DE881AF0041B6E6 /* Container.swift */; };
+		8D7ECA9A1DF8DF2B00726622 /* SlideStoryboardSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7ECA991DF8DF2B00726622 /* SlideStoryboardSegue.swift */; };
+		8D7ECA9C1DF8EB4900726622 /* ContainerDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7ECA9B1DF8EB4900726622 /* ContainerDetailsViewController.swift */; };
+		8D7ECAA21DFC391600726622 /* SlideSegueAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7ECAA11DFC391600726622 /* SlideSegueAnimator.swift */; };
+		8D9999DE1E17F3BE002CBB9D /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8D9999DD1E17F3BE002CBB9D /* Credits.rtf */; };
+		8DBC029B1E15D632005720EB /* CompletionsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBC029A1E15D632005720EB /* CompletionsWindowController.swift */; };
+		8DBC029D1E168CCB005720EB /* CompletionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBC029C1E168CCB005720EB /* CompletionsViewController.swift */; };
+		8DBC029F1E168D2F005720EB /* CompletionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DBC029E1E168D2F005720EB /* CompletionsViewController.xib */; };
+		8DBC02A11E168E49005720EB /* CompletionCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBC02A01E168E49005720EB /* CompletionCellView.swift */; };
 		8DC632F21DF4EF9900449A5C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DC632F11DF4EF9900449A5C /* Main.storyboard */; };
-		8DC632F41DF4F23A00449A5C /* ContainersPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC632F31DF4F23A00449A5C /* ContainersPopoverViewController.swift */; };
 		8DC632F61DF5EF7700449A5C /* ContainerTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC632F51DF5EF7700449A5C /* ContainerTableCellView.swift */; };
+		8DD3BA151E153F560035DA53 /* CompletionsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD3BA141E153F560035DA53 /* CompletionsWindow.swift */; };
+		8DD3BA1A1E15C57D0035DA53 /* CompletableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD3BA191E15C57D0035DA53 /* CompletableTextField.swift */; };
 		8DEE2A911DE5F5EA000E4B9D /* HTTPMessageWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEE2A901DE5F5EA000E4B9D /* HTTPMessageWrapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8D0075B01E169BBA00BAA961 /* FilePathCompletionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilePathCompletionDelegate.swift; sourceTree = "<group>"; };
+		8D054A801E058F43004DBCA7 /* ContainerDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerDetails.swift; sourceTree = "<group>"; };
+		8D054A8A1E05FEAA004DBCA7 /* ContainersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainersViewController.swift; sourceTree = "<group>"; };
+		8D054A8D1E061C71004DBCA7 /* PreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
+		8D054A8F1E061E79004DBCA7 /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		8D07786A1E1C21560082FE36 /* StatusBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarView.swift; sourceTree = "<group>"; };
 		8D23875E1DD9566500BF10E1 /* DockerStatsMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DockerStatsMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D2387611DD9566500BF10E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D2387631DD9566500BF10E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8D2387681DD9566500BF10E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D23876E1DD956FE00BF10E1 /* DockerAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DockerAPIClient.swift; sourceTree = "<group>"; };
 		8D2387701DD956FE00BF10E1 /* UnixClientSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnixClientSocket.swift; sourceTree = "<group>"; };
+		8D2F4C8A1DFDB99200E4206A /* PopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverViewController.swift; sourceTree = "<group>"; };
+		8D43B5DA1E17EE5700954708 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		8D79841B1DE881AF0041B6E6 /* Container.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Container.swift; sourceTree = "<group>"; };
+		8D7ECA991DF8DF2B00726622 /* SlideStoryboardSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideStoryboardSegue.swift; sourceTree = "<group>"; };
+		8D7ECA9B1DF8EB4900726622 /* ContainerDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerDetailsViewController.swift; sourceTree = "<group>"; };
+		8D7ECAA11DFC391600726622 /* SlideSegueAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideSegueAnimator.swift; sourceTree = "<group>"; };
+		8D9999DD1E17F3BE002CBB9D /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		8DBC029A1E15D632005720EB /* CompletionsWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompletionsWindowController.swift; sourceTree = "<group>"; };
+		8DBC029C1E168CCB005720EB /* CompletionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompletionsViewController.swift; sourceTree = "<group>"; };
+		8DBC029E1E168D2F005720EB /* CompletionsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CompletionsViewController.xib; sourceTree = "<group>"; };
+		8DBC02A01E168E49005720EB /* CompletionCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompletionCellView.swift; sourceTree = "<group>"; };
 		8DC632F11DF4EF9900449A5C /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		8DC632F31DF4F23A00449A5C /* ContainersPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainersPopoverViewController.swift; sourceTree = "<group>"; };
 		8DC632F51DF5EF7700449A5C /* ContainerTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerTableCellView.swift; sourceTree = "<group>"; };
+		8DD3BA141E153F560035DA53 /* CompletionsWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompletionsWindow.swift; sourceTree = "<group>"; };
+		8DD3BA191E15C57D0035DA53 /* CompletableTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompletableTextField.swift; sourceTree = "<group>"; };
 		8DEE2A901DE5F5EA000E4B9D /* HTTPMessageWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPMessageWrapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -43,6 +77,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8D0075AF1E169A0F00BAA961 /* Window Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				8DBC029A1E15D632005720EB /* CompletionsWindowController.swift */,
+			);
+			name = "Window Controllers";
+			sourceTree = "<group>";
+		};
+		8D054A881E05F7D0004DBCA7 /* Segues */ = {
+			isa = PBXGroup;
+			children = (
+				8D7ECAA11DFC391600726622 /* SlideSegueAnimator.swift */,
+				8D7ECA991DF8DF2B00726622 /* SlideStoryboardSegue.swift */,
+			);
+			name = Segues;
+			sourceTree = "<group>";
+		};
+		8D054A891E05F7DA004DBCA7 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				8D2F4C8A1DFDB99200E4206A /* PopoverViewController.swift */,
+				8D054A8A1E05FEAA004DBCA7 /* ContainersViewController.swift */,
+				8D7ECA9B1DF8EB4900726622 /* ContainerDetailsViewController.swift */,
+				8D054A8D1E061C71004DBCA7 /* PreferencesViewController.swift */,
+				8DBC029C1E168CCB005720EB /* CompletionsViewController.swift */,
+				8D43B5DA1E17EE5700954708 /* AboutViewController.swift */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		8D054A8C1E05FED7004DBCA7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8DC632F51DF5EF7700449A5C /* ContainerTableCellView.swift */,
+				8DD3BA191E15C57D0035DA53 /* CompletableTextField.swift */,
+				8DBC02A01E168E49005720EB /* CompletionCellView.swift */,
+				8D07786A1E1C21560082FE36 /* StatusBarView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		8D2387551DD9566500BF10E1 = {
 			isa = PBXGroup;
 			children = (
@@ -65,17 +140,31 @@
 				8DF52DD51DDA3F13008875C5 /* Resources */,
 				8D66EDCF1DEB1D6C00EB94F2 /* Model */,
 				8DF52DD41DDA3F05008875C5 /* API */,
+				8D054A881E05F7D0004DBCA7 /* Segues */,
+				8D054A891E05F7DA004DBCA7 /* View Controllers */,
+				8D054A8C1E05FED7004DBCA7 /* Views */,
+				8D0075AF1E169A0F00BAA961 /* Window Controllers */,
+				8D4FA2C91E11D01F00DB5906 /* Windows */,
 				8D2387611DD9566500BF10E1 /* AppDelegate.swift */,
-				8DC632F31DF4F23A00449A5C /* ContainersPopoverViewController.swift */,
-				8DC632F51DF5EF7700449A5C /* ContainerTableCellView.swift */,
+				8D054A8F1E061E79004DBCA7 /* Preferences.swift */,
+				8D0075B01E169BBA00BAA961 /* FilePathCompletionDelegate.swift */,
 			);
 			path = DockerStatsMenu;
+			sourceTree = "<group>";
+		};
+		8D4FA2C91E11D01F00DB5906 /* Windows */ = {
+			isa = PBXGroup;
+			children = (
+				8DD3BA141E153F560035DA53 /* CompletionsWindow.swift */,
+			);
+			name = Windows;
 			sourceTree = "<group>";
 		};
 		8D66EDCF1DEB1D6C00EB94F2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				8D79841B1DE881AF0041B6E6 /* Container.swift */,
+				8D054A801E058F43004DBCA7 /* ContainerDetails.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -96,6 +185,8 @@
 				8D2387631DD9566500BF10E1 /* Assets.xcassets */,
 				8D2387681DD9566500BF10E1 /* Info.plist */,
 				8DC632F11DF4EF9900449A5C /* Main.storyboard */,
+				8DBC029E1E168D2F005720EB /* CompletionsViewController.xib */,
+				8D9999DD1E17F3BE002CBB9D /* Credits.rtf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -161,7 +252,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D2387641DD9566500BF10E1 /* Assets.xcassets in Resources */,
+				8DBC029F1E168D2F005720EB /* CompletionsViewController.xib in Resources */,
 				8DC632F21DF4EF9900449A5C /* Main.storyboard in Resources */,
+				8D9999DE1E17F3BE002CBB9D /* Credits.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,12 +265,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D07786B1E1C21560082FE36 /* StatusBarView.swift in Sources */,
+				8DBC02A11E168E49005720EB /* CompletionCellView.swift in Sources */,
+				8D054A8B1E05FEAA004DBCA7 /* ContainersViewController.swift in Sources */,
 				8DEE2A911DE5F5EA000E4B9D /* HTTPMessageWrapper.swift in Sources */,
+				8D43B5DB1E17EE5700954708 /* AboutViewController.swift in Sources */,
+				8D7ECA9C1DF8EB4900726622 /* ContainerDetailsViewController.swift in Sources */,
+				8DBC029B1E15D632005720EB /* CompletionsWindowController.swift in Sources */,
+				8D7ECA9A1DF8DF2B00726622 /* SlideStoryboardSegue.swift in Sources */,
+				8DBC029D1E168CCB005720EB /* CompletionsViewController.swift in Sources */,
 				8D79841C1DE881AF0041B6E6 /* Container.swift in Sources */,
-				8DC632F41DF4F23A00449A5C /* ContainersPopoverViewController.swift in Sources */,
+				8D2F4C8B1DFDB99200E4206A /* PopoverViewController.swift in Sources */,
+				8D7ECAA21DFC391600726622 /* SlideSegueAnimator.swift in Sources */,
+				8DD3BA1A1E15C57D0035DA53 /* CompletableTextField.swift in Sources */,
 				8D2387731DD956FE00BF10E1 /* UnixClientSocket.swift in Sources */,
+				8D054A901E061E79004DBCA7 /* Preferences.swift in Sources */,
+				8D054A8E1E061C71004DBCA7 /* PreferencesViewController.swift in Sources */,
 				8D2387711DD956FE00BF10E1 /* DockerAPIClient.swift in Sources */,
 				8DC632F61DF5EF7700449A5C /* ContainerTableCellView.swift in Sources */,
+				8D054A811E058F43004DBCA7 /* ContainerDetails.swift in Sources */,
+				8DD3BA151E153F560035DA53 /* CompletionsWindow.swift in Sources */,
+				8D0075B11E169BBA00BAA961 /* FilePathCompletionDelegate.swift in Sources */,
 				8D2387621DD9566500BF10E1 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -226,7 +334,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -270,7 +378,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -287,7 +395,7 @@
 				DEVELOPMENT_TEAM = L8JTCTCWN2;
 				INFOPLIST_FILE = DockerStatsMenu/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = fr.ngquerol.DockerStatsMenu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
@@ -304,7 +412,7 @@
 				DEVELOPMENT_TEAM = L8JTCTCWN2;
 				INFOPLIST_FILE = DockerStatsMenu/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = fr.ngquerol.DockerStatsMenu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;

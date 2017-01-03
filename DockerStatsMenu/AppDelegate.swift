@@ -10,33 +10,28 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject {
-
     let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
+    let popover: NSPopover = NSPopover()
+    let themeChangeNotificationName = Notification.Name(rawValue: "AppleInterfaceThemeChangedNotification")
 
-    let popover: NSPopover = {
-        let storyboard = NSStoryboard(name: "Main", bundle: nil)
-        let popover = NSPopover()
-
-        popover.behavior = .transient
-        popover.appearance = NSAppearance.current()
-
-        guard let popoverViewController = storyboard.instantiateController(withIdentifier: "ContainersPopoverViewController") as? ContainersPopoverViewController else {
-            return popover
-        }
-
-        popover.contentViewController = popoverViewController
-
-        return popover
-    }()
+    var darkModeEnabled: Bool {
+        return UserDefaults.standard.string(forKey: "AppleInterfaceStyle") != nil
+    }
 
     func togglePopover(_ sender: Any?) {
         popover.isShown ? hidePopover(sender) : showPopover(sender)
+    }
+
+    func updatePopoverAppearance(_ notification: Notification) {
+        popover.appearance = NSAppearance(named: darkModeEnabled ? NSAppearanceNameVibrantDark : NSAppearanceNameVibrantLight)
     }
 
     func showPopover(_ sender: Any?) {
         guard let statusButton = statusItem.button else {
             return
         }
+
+        NSRunningApplication.current().activate(options: .activateIgnoringOtherApps)
 
         popover.show(relativeTo: statusButton.bounds, of: statusButton, preferredEdge: .minY)
     }
@@ -47,10 +42,27 @@ class AppDelegate: NSObject {
 }
 
 extension AppDelegate: NSApplicationDelegate {
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        let storyboard = NSStoryboard(name: "Main", bundle: nil)
+        let popoverViewController = storyboard.instantiateController(withIdentifier: "PopoverViewController") as? PopoverViewController
+
+        popoverViewController?.popover = popover
+        popover.behavior = .semitransient
+        popover.animates = true
+        popover.contentViewController = popoverViewController
         statusItem.image = NSImage(named: "StatusIconTemplate")
         statusItem.action = #selector(togglePopover(_:))
+
+        DistributedNotificationCenter.default().addObserver(self,
+                                                            selector: #selector(AppDelegate.updatePopoverAppearance(_:)),
+                                                            name: themeChangeNotificationName,
+                                                            object: nil)
     }
 
-    func applicationWillTerminate(_ aNotification: Notification) {}
+    func applicationWillTerminate(_ aNotification: Notification) {
+        DistributedNotificationCenter.default().removeObserver(self,
+                                                               name: themeChangeNotificationName,
+                                                               object: nil)
+    }
 }

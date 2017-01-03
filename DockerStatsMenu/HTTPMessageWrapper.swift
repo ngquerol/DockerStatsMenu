@@ -10,21 +10,22 @@ import Foundation
 
 // MARK: - HTTP request/response CoreFoundation wrappers
 
-enum HTTPMessageWrapperError: Error, CustomStringConvertible {
+enum HTTPMessageWrapperError: Error {
     case incompleteMessage(reason: String)
     case encodingError(reason: String)
     case decodingError(reason: String)
+}
 
-    var description: String {
+extension HTTPMessageWrapperError: LocalizedError {
+    var localizedDescription: String? {
         switch self {
-        case .incompleteMessage(let reason): return "incomplete HTTP message: " + reason
-        case .encodingError(let reason): return "could not encode HTTP message: " + reason
-        case .decodingError(let reason): return "could not decode HTTP message: " + reason
+        case .incompleteMessage(let reason):
+            return "Incomplete HTTP message: \(reason)"
+        case .encodingError(let reason):
+            return "Could not encode HTTP message: \(reason)"
+        case .decodingError(let reason):
+            return "Could not decode HTTP message: \(reason)"
         }
-    }
-
-    var localizedDescription: String {
-        return description
     }
 }
 
@@ -43,10 +44,13 @@ protocol HTTPMessageWrapper {
 }
 
 extension HTTPMessageWrapper {
+
     init(rawMessage message: CFHTTPMessage) throws {
         self.init()
 
-        guard CFHTTPMessageIsHeaderComplete(message), let headerDictionary = CFHTTPMessageCopyAllHeaderFields(message)?.takeRetainedValue() as? NSDictionary as? [String: String], !headerDictionary.isEmpty else {
+        guard CFHTTPMessageIsHeaderComplete(message),
+            let headerDictionary = CFHTTPMessageCopyAllHeaderFields(message)?.takeRetainedValue() as? [String: String],
+            !headerDictionary.isEmpty else {
             throw HTTPMessageWrapperError.incompleteMessage(reason: "Incomplete or invalid header")
         }
 
@@ -88,6 +92,7 @@ protocol HTTPRequestWrapper: HTTPMessageWrapper {
 }
 
 extension HTTPRequestWrapper {
+
     init(data: Data) throws {
         let request = try Self.getCFHTTPMessage(data: data)
 
@@ -113,6 +118,7 @@ protocol HTTPResponseWrapper: HTTPMessageWrapper {
 }
 
 extension HTTPResponseWrapper {
+    
     init(data: Data) throws {
         let response = try Self.getCFHTTPMessage(data: data)
 
@@ -144,36 +150,36 @@ extension HTTPResponseWrapper {
             throw HTTPMessageWrapperError.incompleteMessage(reason: "Empty chunked message body")
         }
 
-        var result = Data()
-
-        // Split the incoming data, using \r\n as a delimiter.
-        let parts = body.split(whereSeparator: {
-            $0 == UInt8(0x0A) || $0 == UInt8(0x0D)
-        })
-
-        // At this point we have a sequence containing the following repeated subsequences:
-        // - the chunk's length in hexadecimal notation
-        // - the chunk's content
         // As per RFC 2145, the last chunk's length should be equal to zero, with no chunk data
         // that follows it.
-        // Because of the split's delimiter, this chunk is discarded altogether;
-        // Hence, if the message is complete we should get an odd number of subsequences
-        // from our message body.
-        if parts.count % 2 == 0 {
+        let messageTerminator: [UInt8] = [0x30, 0x0D, 0x0A, 0x0D, 0x0A]
+
+        guard body.suffix(5).elementsEqual(messageTerminator) else {
             throw HTTPMessageWrapperError.incompleteMessage(reason: "Last chunk was not empty")
         }
 
+        let messageData = body.dropLast(messageTerminator.count)
+
+        // Split the incoming data, using \r\n as a delimiter.
+        // At this point we have a sequence containing the following repeated subsequences:
+        // - the chunk's length in hexadecimal notation
+        // - the chunk's content
+        let parts = messageData.split(whereSeparator: {
+            $0 == UInt8(0x0A) || $0 == UInt8(0x0D)
+        })
+
+        var result = Data()
+
         // Walk through each chunk's length & content pair, checking if the expected length
         // is valid.
-        for i in stride(from: 0, to: parts.endIndex - 1, by: 2) {
-            let chunkData = Data(parts[i + 1])
+        for index in stride(from: parts.startIndex, to: parts.endIndex, by: 2) {
+            let chunkLength = try decodeChunkLength(data: Data(parts[index]))
+            let chunkData = Data(parts[index + 1])
 
-            guard let chunkLength = try? decodeChunkLength(data: Data(parts[i])),
-                chunkData.count == chunkLength - 1 else {
-                throw HTTPMessageWrapperError.decodingError(reason: "Invalid chunk length")
+            guard chunkLength - 1 == chunkData.count else {
+                throw HTTPMessageWrapperError.decodingError(reason: "Invalid chunk length (expected \(chunkLength - 1), got \(chunkData.count))")
             }
 
-            // If all is well, append the chunk's content to our result variable.
             result.append(chunkData)
         }
 

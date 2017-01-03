@@ -17,9 +17,11 @@ protocol APIEndpoint {
 
 enum DockerAPIRoute {
     case pauseContainer(id: String)
-    case unpauseContainer(id: String)
+    case resumeContainer(id: String)
     case startContainer(id: String)
     case stopContainer(id: String)
+    case removeContainer(id: String)
+    case container(id: String)
     case containers
     case allContainers
 }
@@ -31,12 +33,20 @@ extension DockerAPIRoute: APIEndpoint {
 
     var path: URL {
         switch self {
-        case .pauseContainer(let id): return URL(string: "/containers")!.appendingPathComponent(id).appendingPathComponent("pause")
-        case .unpauseContainer(let id): return URL(string: "/containers")!.appendingPathComponent(id).appendingPathComponent("unpause")
-        case .startContainer(let id): return URL(string: "/containers")!.appendingPathComponent(id).appendingPathComponent("start")
-        case .stopContainer(let id): return URL(string: "/containers")!.appendingPathComponent(id).appendingPathComponent("stop")
-
-        case .containers: return URL(string: "/containers/json")!
+        case .pauseContainer(let id):
+            return URL(string: "/containers")!.appendingPathComponent(id).appendingPathComponent("pause")
+        case .resumeContainer(let id):
+            return URL(string: "/containers")!.appendingPathComponent(id).appendingPathComponent("unpause")
+        case .startContainer(let id):
+            return URL(string: "/containers")!.appendingPathComponent(id).appendingPathComponent("start")
+        case .stopContainer(let id):
+            return URL(string: "/containers")!.appendingPathComponent(id).appendingPathComponent("stop")
+        case .removeContainer(let id):
+            return URL(string: "/containers")!.appendingPathComponent(id)
+        case .container(let id):
+            return URL(string: "/containers")!.appendingPathComponent(id).appendingPathComponent("json")
+        case .containers:
+            return URL(string: "/containers")!.appendingPathComponent("json")
         case .allContainers:
             var components = URLComponents(string: "/containers/json")!
             components.queryItems = [URLQueryItem(name: "all", value: "1")]
@@ -49,137 +59,152 @@ extension DockerAPIRoute: APIEndpoint {
 
 typealias ResponseHandler = (Response?, Error?) -> Void
 
-enum APIError: Error, CustomStringConvertible {
-    case invalidResponse
+enum APIError: Error {
+    case invalidResponse(statusCode: Int)
+    case emptyResponse
+}
 
-    var description: String {
+extension APIError: LocalizedError {
+    var localizedDescription: String? {
         switch self {
-        case .invalidResponse:
-            return "Got invalid response"
+        case .invalidResponse(let statusCode):
+            return "Got invalid response \(statusCode)"
+        case .emptyResponse:
+            return "Got empty response"
         }
-    }
-
-    var localizedDescription: String {
-        return description
     }
 }
 
 protocol DockerAPI {
     func connect() throws
-    func pauseContainer(withId id: String, completion: @escaping (Error?) -> Void)
-    func unpauseContainer(withId id: String, completion: @escaping (Error?) -> Void)
-    func stopContainer(withId id: String, completion: @escaping (Error?) -> Void)
-    func startContainer(withId id: String, completion: @escaping (Error?) -> Void)
+    func pauseContainer(withId id: String, completion: @escaping (Response?, Error?) -> Void)
+    func resumeContainer(withId id: String, completion: @escaping (Response?, Error?) -> Void)
+    func stopContainer(withId id: String, completion: @escaping (Response?, Error?) -> Void)
+    func startContainer(withId id: String, completion: @escaping (Response?, Error?) -> Void)
+    func removeContainer(withId id: String, completion: @escaping (Response?, Error?) -> Void)
+    func getContainer(withId id: String, completion: @escaping (ContainerDetails?, Error?) -> Void)
     func getContainersList(showAll: Bool, completion: @escaping ([Container]?, Error?) -> Void)
 }
 
-class SocketDockerAPI {
+struct SocketDockerAPI {
+    fileprivate static let userAgentString = "DockerStatsMenu/\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] ?? "?")"
     fileprivate var clientSocket: UnixClientSocket
 
     init(socketPath path: String) {
         clientSocket = UnixClientSocket(path: path)
     }
 
-    deinit {
-        clientSocket.close()
-    }
-
-    fileprivate func sendRequest(to route: DockerAPIRoute, via method: String, with data: Data, completion: @escaping (Error?) -> Void) {
+    fileprivate func sendRequest(to route: DockerAPIRoute, via method: String, with data: Data = Data(), completion: @escaping (Response?, Error?) -> Void) {
         let request = Request(
             httpVersion: kCFHTTPVersion1_1 as String,
             headers: [
                 "Host": route.baseURL.absoluteString,
                 "Accept": "application/json",
-                "User-Agent": "DockerStatsMenu"
+                "User-Agent": SocketDockerAPI.userAgentString,
             ],
             body: data,
             url: route.path,
             method: method
         )
 
+        let requestData: Data
+
         do {
-            let serializedRequest = try request.serialized()
-            clientSocket.write(data: serializedRequest as Data) { error in completion(error) }
-        } catch (let error) {
-            return completion(error)
+            requestData = try request.serialized()
+        } catch {
+            return completion(nil, error)
         }
 
+        clientSocket.send(data: requestData) { error in
+            guard error == nil else {
+                return completion(nil, error)
+            }
 
-    }
-
-    fileprivate func readResponse(from data: Data) throws -> Response {
-        let response = try Response(data: data)
-
-        if !(200..<300 ~= response.statusCode) {
-            throw APIError.invalidResponse
+            self.readResponse(completion: completion)
         }
-
-        return response
     }
 
-    fileprivate func doRequest(to route: DockerAPIRoute, via method: String, with data: Data = Data(), completion: @escaping (Response?, Error?) -> Void) {
+    fileprivate func readResponse(completion: @escaping (Response?, Error?) -> Void) {
         var responseData = Data()
 
-        clientSocket.readEventHandler = { data, error in
-            guard let data = data, error == nil else {
-                return completion(nil, error)
+        self.clientSocket.readEventHandler = { data, error in
+            guard error == nil, let data = data else {
+                self.clientSocket.readEventHandler = nil
+                return completion(nil, error == nil ? APIError.emptyResponse : error)
             }
 
             responseData.append(data)
 
             do {
-                let response = try self.readResponse(from: responseData)
+                let response = try Response(data: responseData)
                 completion(response, nil)
-                responseData.removeAll()
                 self.clientSocket.readEventHandler = nil
+                return
             } catch HTTPMessageWrapperError.incompleteMessage {
-                return // wait for additional data
-            } catch (let error) {
+                // wait for additional data
+            } catch {
                 completion(nil, error)
-                responseData.removeAll()
                 self.clientSocket.readEventHandler = nil
-            }
-        }
-
-        sendRequest(to: route, via: method, with: data) { error in
-            guard error == nil else {
-                return completion(nil, error)
+                return
             }
         }
     }
 }
 
 extension SocketDockerAPI: DockerAPI {
+    
     func connect() throws {
         try clientSocket.connect()
     }
 
-    func pauseContainer(withId id: String, completion: @escaping (Error?) -> Void) {
-        doRequest(to: .pauseContainer(id: id), via: "POST") { _, error in
-            completion(error)
+    func pauseContainer(withId id: String, completion: @escaping (Response?, Error?) -> Void) {
+        sendRequest(to: .pauseContainer(id: id), via: "POST") { response, error in
+            completion(response, error)
         }
     }
 
-    func unpauseContainer(withId id: String, completion: @escaping (Error?) -> Void) {
-        doRequest(to: .unpauseContainer(id: id), via: "POST") { _, error in
-            completion(error)
+    func resumeContainer(withId id: String, completion: @escaping (Response?, Error?) -> Void) {
+        sendRequest(to: .resumeContainer(id: id), via: "POST") { response, error in
+            completion(response, error)
         }
     }
 
-    func stopContainer(withId id: String, completion: @escaping (Error?) -> Void) {
-        doRequest(to: .stopContainer(id: id), via: "POST") { _, error in
-            completion(error)
+    func stopContainer(withId id: String, completion: @escaping (Response?, Error?) -> Void) {
+        sendRequest(to: .stopContainer(id: id), via: "POST") { response, error in
+            completion(response, error)
         }
     }
 
-    func startContainer(withId id: String, completion: @escaping (Error?) -> Void) {
-        doRequest(to: .startContainer(id: id), via: "POST") { _, error in
-            completion(error)
+    func startContainer(withId id: String, completion: @escaping (Response?, Error?) -> Void) {
+        sendRequest(to: .startContainer(id: id), via: "POST") { response, error in
+            completion(response, error)
+        }
+    }
+
+    func removeContainer(withId id: String, completion: @escaping (Response?, Error?) -> Void) {
+        sendRequest(to: .removeContainer(id: id), via: "DELETE") { response, error in
+            completion(response, error)
+        }
+    }
+
+    func getContainer(withId id: String, completion: @escaping (ContainerDetails?, Error?) -> Void) {
+        sendRequest(to: .container(id: id), via: "GET") { response, error in
+            guard error == nil, let responseBody = response?.body else {
+                return completion(nil, error)
+            }
+
+            do {
+                let containerJSON = try JSONSerialization.jsonObject(with: responseBody, options: []) as! [String: Any]
+                let container = try ContainerDetails(json: containerJSON)
+                completion(container, nil)
+            } catch {
+                completion(nil, error)
+            }
         }
     }
 
     func getContainersList(showAll: Bool, completion: @escaping ([Container]?, Error?) -> Void) {
-        doRequest(to: showAll ? .allContainers : .containers, via: "GET") { response, error in
+        sendRequest(to: showAll ? .allContainers : .containers, via: "GET") { response, error in
             guard error == nil, let responseBody = response?.body else {
                 return completion(nil, error)
             }
@@ -188,7 +213,7 @@ extension SocketDockerAPI: DockerAPI {
                 let containersJSONArray = try JSONSerialization.jsonObject(with: responseBody, options: []) as! [[String: Any]]
                 let containers = try containersJSONArray.map { try Container(json: $0) }
                 completion(containers, nil)
-            } catch (let error) {
+            } catch {
                 completion(nil, error)
             }
         }

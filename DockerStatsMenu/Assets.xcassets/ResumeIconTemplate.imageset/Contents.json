@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "mac",
-      "filename" : "warn.png",
+      "filename" : "Resume Button Filled-100.png",
       "scale" : "1x"
     },
     {
       "idiom" : "mac",
-      "filename" : "warn-1.png",
+      "filename" : "Resume Button Filled-101.png",
       "scale" : "2x"
     }
   ],

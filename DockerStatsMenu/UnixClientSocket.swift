@@ -9,7 +9,7 @@
 import Darwin
 import Foundation
 
-enum ClientSocketError: Error, CustomStringConvertible {
+enum ClientSocketError: Error {
     case creationFailed(code: errno_t)
     case connectionFailed(code: errno_t)
     case closeFailed(code: errno_t)
@@ -17,11 +17,13 @@ enum ClientSocketError: Error, CustomStringConvertible {
     case writeFailed(code: errno_t)
     case unknownError()
 
-    private func errnoString(_ code: errno_t) -> String {
+    fileprivate func errnoString(_ code: errno_t) -> String {
         return String(cString: strerror(code))
     }
+}
 
-    var description: String {
+extension ClientSocketError: LocalizedError {
+    var localizedDescription: String {
         switch self {
         case .creationFailed(let code):
             return "client socket creation failed: " + errnoString(code)
@@ -37,32 +39,24 @@ enum ClientSocketError: Error, CustomStringConvertible {
             return "unknown client socket error"
         }
     }
-
-    var localizedDescription: String {
-        return description
-    }
 }
 
 class UnixClientSocket {
     private static let socketQueue = DispatchQueue(label: "fr.ngquerol.dockerstatsmenu.socketqueue")
 
-    var readEventHandler: ((Data?, Error?) -> Void)? {
-        didSet {
-            guard let readHandler = self.readEventHandler else { return }
-
-            readEventSource.setEventHandler(qos: .utility, flags: []) {
-                self.read(completion: readHandler)
-            }
-        }
-    }
-
-    private let fileDescriptor: Int32
+    private var fileDescriptor: Int32
 
     private let socketPath: String
 
     private let socketChannel: DispatchIO
 
     private let readEventSource: DispatchSourceRead
+
+    var isClosed: Bool {
+        return fileDescriptor == -1
+    }
+
+    var readEventHandler: ((Data?, Error?) -> Void)?
 
     init(path: String) {
         socketPath = path
@@ -75,24 +69,32 @@ class UnixClientSocket {
             queue: UnixClientSocket.socketQueue
         ) { errCode in
             if errCode != 0 {
-                NSLog(ClientSocketError.closeFailed(code: errCode).description)
+                NSLog(ClientSocketError.closeFailed(code: errCode).localizedDescription)
             }
         }
 
         socketChannel.setLimit(lowWater: 1)
 
-        readEventSource = DispatchSource.makeReadSource(
-            fileDescriptor: fileDescriptor,
-            queue: UnixClientSocket.socketQueue
-        )
-
-        readEventSource.setCancelHandler {
-            self.socketChannel.close(flags: .stop)
+        readEventSource = DispatchSource.makeReadSource(fileDescriptor: fileDescriptor,
+                                                        queue: DispatchQueue.global(qos: .utility))
+        readEventSource.setEventHandler {
+            self.receive { data, error in
+                if let readEventHandler = self.readEventHandler {
+                    readEventHandler(data, error)
+                }
+            }
         }
     }
 
+    deinit {
+        close()
+    }
+
     func close() {
+        readEventHandler = nil
         readEventSource.cancel()
+        socketChannel.close(flags: .stop)
+        fileDescriptor = -1
     }
 
     func connect() throws {
@@ -108,15 +110,15 @@ class UnixClientSocket {
             throw ClientSocketError.connectionFailed(code: errno)
         }
 
-        readEventSource.activate()
+        readEventSource.resume()
     }
 
-    func read(completion: @escaping (Data?, Error?) -> Void) {
-        socketChannel.read(
+    func receive(completion: @escaping (Data?, Error?) -> Void) {
+        self.socketChannel.read(
             offset: 0,
             length: SSIZE_MAX,
             queue: UnixClientSocket.socketQueue
-        ) { _, data, error in
+        ) { done, data, error in
             guard error == 0, let data = data, data.count > 0 else {
                 return completion(nil, ClientSocketError.readFailed(code: error))
             }
@@ -129,7 +131,7 @@ class UnixClientSocket {
         }
     }
 
-    func write(data: Data, completion: @escaping (Error?) -> Void) {
+    func send(data: Data, completion: @escaping (Error?) -> Void) {
         let dispatchData = data.withUnsafeBytes {
             DispatchData(bytes: UnsafeBufferPointer<UInt8>(start: $0, count: data.count))
         }
@@ -149,28 +151,33 @@ class UnixClientSocket {
 }
 
 fileprivate extension sockaddr_un {
+    
     init(path: String) {
-        self.init(sun_len: UInt8(MemoryLayout<sockaddr_un>.stride),
-                  sun_family: sa_family_t(AF_UNIX),
-                  sun_path: (0, 0, 0, 0, 0, 0, 0, 0,
-                             0, 0, 0, 0, 0, 0, 0, 0,
-                             0, 0, 0, 0, 0, 0, 0, 0,
-                             0, 0, 0, 0, 0, 0, 0, 0,
-                             0, 0, 0, 0, 0, 0, 0, 0,
-                             0, 0, 0, 0, 0, 0, 0, 0,
-                             0, 0, 0, 0, 0, 0, 0, 0,
-                             0, 0, 0, 0, 0, 0, 0, 0,
-                             0, 0, 0, 0, 0, 0, 0, 0,
-                             0, 0, 0, 0, 0, 0, 0, 0,
-                             0, 0, 0, 0, 0, 0, 0, 0,
-                             0, 0, 0, 0, 0, 0, 0, 0,
-                             0, 0, 0, 0, 0, 0, 0, 0))
+        self.init(
+            sun_len: UInt8(MemoryLayout<sockaddr_un>.stride),
+            sun_family: sa_family_t(AF_UNIX),
+            sun_path: (
+                0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0
+            )
+        )
 
         let sunPathBuffer = UnsafeMutableBufferPointer<Int8>(
             start: &sun_path.0,
             count: MemoryLayout.stride(ofValue: sun_path)
         )
-        
+
         for (i, pathByte) in path.utf8CString.enumerated() {
             sunPathBuffer[i] = pathByte
         }

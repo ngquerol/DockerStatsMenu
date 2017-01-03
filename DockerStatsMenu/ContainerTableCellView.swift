@@ -9,9 +9,6 @@
 import Cocoa
 
 class ContainerTableCellView: NSTableCellView {
-
     @IBOutlet weak var statusImageView: NSImageView!
     @IBOutlet weak var nameTextField: NSTextField!
-    @IBOutlet weak var imageTextField: NSTextField!
-    
 }

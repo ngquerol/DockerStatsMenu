@@ -12,6 +12,14 @@ enum JSONError: Error {
     case invalidJSON
 }
 
+extension JSONError: LocalizedError {
+    var errorDescription: String? {
+        switch self {
+        case .invalidJSON: return "Could not decode JSON response"
+        }
+    }
+}
+
 enum ContainerState {
     case running
     case paused
@@ -22,10 +30,10 @@ enum ContainerState {
 extension ContainerState: RawRepresentable {
     var rawValue: String {
         switch self {
-        case .running: return "running"
-        case .paused: return "paused"
-        case .exited: return "exited"
-        case .unknown: return "unknown"
+        case .running: return "Running"
+        case .paused: return "Paused"
+        case .exited: return "Exited"
+        case .unknown: return "Unknown"
         }
     }
 
@@ -44,6 +52,7 @@ struct Container {
     let names: [String]
     let image: String
     let created: Date
+    let command: String
     let status: String
     let state: ContainerState
 
@@ -51,7 +60,8 @@ struct Container {
         guard let id = json["Id"] as? String,
             let names = json["Names"] as? [String],
             let image = json["Image"] as? String,
-            let created = json["Created"] as? UInt64,
+            let created = json["Created"] as? TimeInterval,
+            let command = json["Command"] as? String,
             let status = json["Status"] as? String,
             let state = json["State"] as? String else {
             throw JSONError.invalidJSON
@@ -60,22 +70,23 @@ struct Container {
         self.id = id
         self.names = names
         self.image = image
-        self.created = Date(timeIntervalSince1970: TimeInterval(created))
+        self.created = Date(timeIntervalSince1970: created)
+        self.command = command
         self.status = status
         self.state = ContainerState(rawValue: state)
     }
 }
 
 extension Container: Equatable {
+
     static func == (lhs: Container, rhs: Container) -> Bool {
         return lhs.id == rhs.id
     }
 }
 
 extension Container: Comparable {
+
     static func < (lhs: Container, rhs: Container) -> Bool {
         return lhs.created < rhs.created
     }
 }
-
-
