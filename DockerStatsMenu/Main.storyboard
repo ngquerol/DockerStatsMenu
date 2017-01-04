@@ -154,10 +154,21 @@
                                             </menu>
                                         </popUpButtonCell>
                                     </popUpButton>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lhb-pQ-Nse">
+                                        <rect key="frame" x="97" y="7" width="95" height="17"/>
+                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" refusesFirstResponder="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Docker version" usesSingleLineMode="YES" id="iWs-CG-RQD">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="Lhb-pQ-Nse" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="i8i-v8-nG9" secondAttribute="trailing" constant="10" id="1dB-Ws-9cl"/>
                                     <constraint firstItem="i8i-v8-nG9" firstAttribute="centerY" secondItem="l2P-0m-cW0" secondAttribute="centerY" id="SJP-fR-nyt"/>
+                                    <constraint firstItem="Lhb-pQ-Nse" firstAttribute="centerY" secondItem="l2P-0m-cW0" secondAttribute="centerY" id="ene-Ra-rDg"/>
                                     <constraint firstItem="i8i-v8-nG9" firstAttribute="leading" secondItem="l2P-0m-cW0" secondAttribute="leading" constant="10" id="h8c-rE-Xg1"/>
+                                    <constraint firstAttribute="trailing" secondItem="Lhb-pQ-Nse" secondAttribute="trailing" constant="10" id="kLg-eA-R6u"/>
                                     <constraint firstAttribute="height" constant="30" id="plW-tJ-ufe"/>
                                 </constraints>
                             </visualEffectView>
@@ -178,6 +189,7 @@
                     <connections>
                         <outlet property="containersStatusSeparator" destination="9Sc-lh-HCa" id="ZlH-wU-VzW"/>
                         <outlet property="containersTableView" destination="P5A-3T-KdM" id="1HR-yz-lG7"/>
+                        <outlet property="dockerVersionTextField" destination="Lhb-pQ-Nse" id="ybO-0Q-Lt0"/>
                         <outlet property="statusBarView" destination="l2P-0m-cW0" id="r3j-DQ-q47"/>
                     </connections>
                 </viewController>

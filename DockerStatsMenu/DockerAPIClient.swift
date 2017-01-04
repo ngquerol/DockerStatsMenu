@@ -24,6 +24,7 @@ enum DockerAPIRoute {
     case container(id: String)
     case containers
     case allContainers
+    case versionInfo
 }
 
 extension DockerAPIRoute: APIEndpoint {
@@ -51,6 +52,8 @@ extension DockerAPIRoute: APIEndpoint {
             var components = URLComponents(string: "/containers/json")!
             components.queryItems = [URLQueryItem(name: "all", value: "1")]
             return components.url!
+        case .versionInfo:
+            return URL(string: "/version")!
         }
     }
 }
@@ -84,6 +87,7 @@ protocol DockerAPI {
     func removeContainer(withId id: String, completion: @escaping (Response?, Error?) -> Void)
     func getContainer(withId id: String, completion: @escaping (ContainerDetails?, Error?) -> Void)
     func getContainersList(showAll: Bool, completion: @escaping ([Container]?, Error?) -> Void)
+    func getVersionInfo(completion: @escaping (VersionInfo?, Error?) -> Void)
 }
 
 struct SocketDockerAPI {
@@ -152,7 +156,7 @@ struct SocketDockerAPI {
 }
 
 extension SocketDockerAPI: DockerAPI {
-    
+
     func connect() throws {
         try clientSocket.connect()
     }
@@ -213,6 +217,22 @@ extension SocketDockerAPI: DockerAPI {
                 let containersJSONArray = try JSONSerialization.jsonObject(with: responseBody, options: []) as! [[String: Any]]
                 let containers = try containersJSONArray.map { try Container(json: $0) }
                 completion(containers, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    func getVersionInfo(completion: @escaping (VersionInfo?, Error?) -> Void) {
+        sendRequest(to: .versionInfo, via: "GET") { response, error in
+            guard error == nil, let responseBody = response?.body else {
+                return completion(nil, error)
+            }
+
+            do {
+                let versionJSON = try JSONSerialization.jsonObject(with: responseBody, options: []) as! [String: Any]
+                let version = try VersionInfo(json: versionJSON)
+                completion(version, nil)
             } catch {
                 completion(nil, error)
             }

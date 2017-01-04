@@ -13,6 +13,7 @@
 		8D054A8E1E061C71004DBCA7 /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D054A8D1E061C71004DBCA7 /* PreferencesViewController.swift */; };
 		8D054A901E061E79004DBCA7 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D054A8F1E061E79004DBCA7 /* Preferences.swift */; };
 		8D07786B1E1C21560082FE36 /* StatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D07786A1E1C21560082FE36 /* StatusBarView.swift */; };
+		8D07786D1E1C6DCE0082FE36 /* VersionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D07786C1E1C6DCE0082FE36 /* VersionInfo.swift */; };
 		8D2387621DD9566500BF10E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2387611DD9566500BF10E1 /* AppDelegate.swift */; };
 		8D2387641DD9566500BF10E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D2387631DD9566500BF10E1 /* Assets.xcassets */; };
 		8D2387711DD956FE00BF10E1 /* DockerAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D23876E1DD956FE00BF10E1 /* DockerAPIClient.swift */; };
@@ -42,6 +43,7 @@
 		8D054A8D1E061C71004DBCA7 /* PreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
 		8D054A8F1E061E79004DBCA7 /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		8D07786A1E1C21560082FE36 /* StatusBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarView.swift; sourceTree = "<group>"; };
+		8D07786C1E1C6DCE0082FE36 /* VersionInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionInfo.swift; sourceTree = "<group>"; };
 		8D23875E1DD9566500BF10E1 /* DockerStatsMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DockerStatsMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D2387611DD9566500BF10E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D2387631DD9566500BF10E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 			children = (
 				8D79841B1DE881AF0041B6E6 /* Container.swift */,
 				8D054A801E058F43004DBCA7 /* ContainerDetails.swift */,
+				8D07786C1E1C6DCE0082FE36 /* VersionInfo.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 				8D43B5DB1E17EE5700954708 /* AboutViewController.swift in Sources */,
 				8D7ECA9C1DF8EB4900726622 /* ContainerDetailsViewController.swift in Sources */,
 				8DBC029B1E15D632005720EB /* CompletionsWindowController.swift in Sources */,
+				8D07786D1E1C6DCE0082FE36 /* VersionInfo.swift in Sources */,
 				8D7ECA9A1DF8DF2B00726622 /* SlideStoryboardSegue.swift in Sources */,
 				8DBC029D1E168CCB005720EB /* CompletionsViewController.swift in Sources */,
 				8D79841C1DE881AF0041B6E6 /* Container.swift in Sources */,

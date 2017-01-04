@@ -12,6 +12,7 @@ class ContainersViewController: NSViewController {
     @IBOutlet weak var containersTableView: NSTableView!
     @IBOutlet weak var containersStatusSeparator: NSBox!
     @IBOutlet weak var statusBarView: NSVisualEffectView!
+    @IBOutlet weak var dockerVersionTextField: NSTextField!
 
     @IBAction func userDidClickQuit(_ sender: NSMenuItem) {
         NSApp.terminate(sender)
@@ -32,8 +33,12 @@ class ContainersViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        connect()
+
         updateTimer.setEventHandler { self.updateContainersList() }
         updateTimer.scheduleRepeating(deadline: .now(), interval: updateInterval)
+
+        updateVersionInfo()
 
         preferencesListeners.append(contentsOf: [
             NotificationCenter.default.addObserver(forName: Preferences.DockerSocketPathChangedNotification,
@@ -41,6 +46,7 @@ class ContainersViewController: NSViewController {
                                                    queue: nil) { _ in
                 self.apiClient = SocketDockerAPI(socketPath: Preferences.shared.dockerSocketPath)
                 self.connect()
+                self.updateVersionInfo()
             },
             NotificationCenter.default.addObserver(forName: Preferences.ContainersUpdateIntervalChangedNotification,
                                                    object: nil,
@@ -54,8 +60,6 @@ class ContainersViewController: NSViewController {
                 self.showAllContainers = Preferences.shared.showAllContainers
             },
         ])
-
-        connect()
     }
 
     deinit {
@@ -121,6 +125,18 @@ class ContainersViewController: NSViewController {
             NSLog(error.localizedDescription)
         } catch {
             NSLog(error.localizedDescription)
+        }
+    }
+
+    private func updateVersionInfo() {
+        apiClient.getVersionInfo { versionInfo, error in
+            guard error == nil, let versionInfo = versionInfo else {
+                self.dockerVersionTextField.isHidden = true
+                return
+            }
+
+            self.dockerVersionTextField.isHidden = false
+            self.dockerVersionTextField.stringValue = "Docker v\(versionInfo.version)"
         }
     }
 
