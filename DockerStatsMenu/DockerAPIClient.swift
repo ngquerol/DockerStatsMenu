@@ -116,15 +116,27 @@ struct SocketDockerAPI {
         do {
             requestData = try request.serialized()
         } catch {
-            return completion(nil, error)
+            DispatchQueue.main.async {
+                completion(nil, error)
+            }
+
+            return
         }
 
         clientSocket.send(data: requestData) { error in
             guard error == nil else {
-                return completion(nil, error)
+                DispatchQueue.main.async {
+                    completion(nil, error)
+                }
+
+                return
             }
 
-            self.readResponse(completion: completion)
+            self.readResponse { response, error in
+                DispatchQueue.main.async {
+                    completion(response, error)
+                }
+            }
         }
     }
 
@@ -134,20 +146,32 @@ struct SocketDockerAPI {
         self.clientSocket.readEventHandler = { data, error in
             guard error == nil, let data = data else {
                 self.clientSocket.readEventHandler = nil
-                return completion(nil, error == nil ? APIError.emptyResponse : error)
+
+                DispatchQueue.main.async {
+                    completion(nil, error == nil ? APIError.emptyResponse : error)
+                }
+
+                return
             }
 
             responseData.append(data)
 
             do {
                 let response = try Response(data: responseData)
-                completion(response, nil)
+
+                DispatchQueue.main.async {
+                    completion(response, nil)
+                }
+
                 self.clientSocket.readEventHandler = nil
                 return
             } catch HTTPMessageWrapperError.incompleteMessage {
                 // wait for additional data
             } catch {
-                completion(nil, error)
+                DispatchQueue.main.async {
+                    completion(nil, error)
+                }
+
                 self.clientSocket.readEventHandler = nil
                 return
             }
@@ -163,46 +187,65 @@ extension SocketDockerAPI: DockerAPI {
 
     func pauseContainer(withId id: String, completion: @escaping (Response?, Error?) -> Void) {
         sendRequest(to: .pauseContainer(id: id), via: "POST") { response, error in
-            completion(response, error)
+            DispatchQueue.main.async {
+                completion(response, error)
+            }
         }
     }
 
     func resumeContainer(withId id: String, completion: @escaping (Response?, Error?) -> Void) {
         sendRequest(to: .resumeContainer(id: id), via: "POST") { response, error in
-            completion(response, error)
+            DispatchQueue.main.async {
+                completion(response, error)
+            }
         }
     }
 
     func stopContainer(withId id: String, completion: @escaping (Response?, Error?) -> Void) {
         sendRequest(to: .stopContainer(id: id), via: "POST") { response, error in
-            completion(response, error)
+            DispatchQueue.main.async {
+                completion(response, error)
+            }
         }
     }
 
     func startContainer(withId id: String, completion: @escaping (Response?, Error?) -> Void) {
         sendRequest(to: .startContainer(id: id), via: "POST") { response, error in
-            completion(response, error)
+            DispatchQueue.main.async {
+                completion(response, error)
+            }
         }
     }
 
     func removeContainer(withId id: String, completion: @escaping (Response?, Error?) -> Void) {
         sendRequest(to: .removeContainer(id: id), via: "DELETE") { response, error in
-            completion(response, error)
+            DispatchQueue.main.async {
+                completion(response, error)
+            }
         }
     }
 
     func getContainer(withId id: String, completion: @escaping (ContainerDetails?, Error?) -> Void) {
         sendRequest(to: .container(id: id), via: "GET") { response, error in
             guard error == nil, let responseBody = response?.body else {
-                return completion(nil, error)
+                DispatchQueue.main.async {
+                    completion(nil, error)
+                }
+
+                return
             }
 
             do {
                 let containerJSON = try JSONSerialization.jsonObject(with: responseBody, options: []) as! [String: Any]
                 let container = try ContainerDetails(json: containerJSON)
-                completion(container, nil)
+
+                DispatchQueue.main.async {
+                    completion(container, nil)
+                }
             } catch {
-                completion(nil, error)
+                DispatchQueue.main.async {
+                    completion(nil, error)
+                }
             }
         }
     }
@@ -210,15 +253,24 @@ extension SocketDockerAPI: DockerAPI {
     func getContainersList(showAll: Bool, completion: @escaping ([Container]?, Error?) -> Void) {
         sendRequest(to: showAll ? .allContainers : .containers, via: "GET") { response, error in
             guard error == nil, let responseBody = response?.body else {
-                return completion(nil, error)
+                DispatchQueue.main.async {
+                    completion(nil, error)
+                }
+
+                return
             }
 
             do {
                 let containersJSONArray = try JSONSerialization.jsonObject(with: responseBody, options: []) as! [[String: Any]]
                 let containers = try containersJSONArray.map { try Container(json: $0) }
-                completion(containers, nil)
+
+                DispatchQueue.main.async {
+                    completion(containers, nil)
+                }
             } catch {
-                completion(nil, error)
+                DispatchQueue.main.async {
+                    completion(nil, error)
+                }
             }
         }
     }
@@ -226,15 +278,24 @@ extension SocketDockerAPI: DockerAPI {
     func getVersionInfo(completion: @escaping (VersionInfo?, Error?) -> Void) {
         sendRequest(to: .versionInfo, via: "GET") { response, error in
             guard error == nil, let responseBody = response?.body else {
-                return completion(nil, error)
+                DispatchQueue.main.async {
+                    completion(nil, error)
+                }
+
+                return
             }
 
             do {
                 let versionJSON = try JSONSerialization.jsonObject(with: responseBody, options: []) as! [String: Any]
                 let version = try VersionInfo(json: versionJSON)
-                completion(version, nil)
+
+                DispatchQueue.main.async {
+                    completion(version, nil)
+                }
             } catch {
-                completion(nil, error)
+                DispatchQueue.main.async {
+                    completion(nil, error)
+                }
             }
         }
     }
