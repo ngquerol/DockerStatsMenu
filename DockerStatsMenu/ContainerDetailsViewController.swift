@@ -123,6 +123,7 @@ class ContainerDetailsViewController: NSViewController {
         self.idTextField.toolTip = container.id
         self.imageTextField.stringValue = container.image
         self.commandTextField.stringValue = container.command
+        self.commandTextField.toolTip = container.command
         self.createdTextField.objectValue = container.created
         self.statusTextField.stringValue = container.state.rawValue
 
