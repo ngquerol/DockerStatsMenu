@@ -12,6 +12,17 @@ enum JSONError: Error {
     case invalidJSON
 }
 
+let dateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+
+    formatter.locale = Locale(identifier: "en")
+    formatter.dateStyle = .short
+    formatter.timeStyle = .short
+    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'.'SSSSSSSSSZ"
+
+    return formatter
+}()
+
 extension JSONError: LocalizedError {
     var errorDescription: String? {
         switch self {
